@@ -18,7 +18,9 @@ pipeline {
 
     stage('Init') {
       steps {
-        env.PATH = "${tool 'apache-maven-3.0.5'}/bin:${env.PATH}"
+        environment {
+          PATH = "${tool 'apache-maven-3.0.5'}/bin:${env.PATH}"
+        }
         sh 'mvn -B replacer:replace'
       }
     }
