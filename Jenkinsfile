@@ -30,7 +30,10 @@ pipeline {
           maven: 'apache-maven-3.0.5' ) {
             sh 'mvn -B deploy'
         }
-        artserver.publishBuildInfo buildInfo
+
+        script {
+          artserver.publishBuildInfo buildInfo
+        }
       }
     }
     
