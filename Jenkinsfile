@@ -1,4 +1,6 @@
 def artserver = Artifactory.server('store.terradue.com')
+def buildInfo = Artifactory.newBuildInfo()
+buildInfo.env.capture = true
 
 pipeline {
 
