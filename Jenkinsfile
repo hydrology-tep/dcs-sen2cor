@@ -22,12 +22,13 @@ pipeline {
     // Let's go!
     stage('Package & Dockerize') {
       steps {
-        def artserver = Artifactory.server('store.terradue.com')
+        artserver = Artifactory.server('store.terradue.com')
         withMaven(
           // Maven installation declared in the Jenkins "Global Tool Configuration"
           maven: 'apache-maven-3.0.5' ) {
             sh 'mvn -B deploy'
         }
+        artserver.publishBuildInfo buildInfo
       }
     }
     
