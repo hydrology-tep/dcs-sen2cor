@@ -4,6 +4,8 @@ pipeline {
     booleanParam(name: 'RELEASE', defaultValue: false, description: 'If this parameter is set, the build will publish the processor as a release ready for production.', )
   }
 
+  buildInfo retention maxBuilds: 5, maxDays: 120, deleteBuildArtifacts: true
+
   agent { 
     node { 
       label 'ci-community-docker' 
