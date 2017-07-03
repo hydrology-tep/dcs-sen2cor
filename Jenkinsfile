@@ -17,18 +17,21 @@ pipeline {
   stages {
 
     stage('Init') {
-      steps {
-        environment {
-          PATH = "${tool 'apache-maven-3.0.5'}/bin:${env.PATH}"
-        }
-        sh 'mvn -B replacer:replace'
+      withMaven(
+        // Maven installation declared in the Jenkins "Global Tool Configuration"
+        maven: 'apache-maven-3.0.5' ) {
+          sh 'mvn -B replacer:replace'
       }
     }
 
     stage('Package') {
       steps {
         echo "Packaging the application as RPM"
-        sh 'mvn -B rpm:rpm'
+        withMaven(
+          // Maven installation declared in the Jenkins "Global Tool Configuration"
+          maven: 'apache-maven-3.0.5' ) {
+            sh 'mvn -B rpm:rpm'
+        }
       }
     }
 
