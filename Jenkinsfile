@@ -17,10 +17,12 @@ pipeline {
   stages {
 
     stage('Init') {
-      withMaven(
-        // Maven installation declared in the Jenkins "Global Tool Configuration"
-        maven: 'apache-maven-3.0.5' ) {
-          sh 'mvn -B replacer:replace'
+      steps {
+        withMaven(
+          // Maven installation declared in the Jenkins "Global Tool Configuration"
+          maven: 'apache-maven-3.0.5' ) {
+            sh 'mvn -B replacer:replace'
+        }
       }
     }
 
