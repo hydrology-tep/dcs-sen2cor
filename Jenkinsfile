@@ -16,45 +16,15 @@ pipeline {
 
   stages {
 
-    stage('Init') {
+    stage('Package & Dockerize') {
       steps {
         withMaven(
           // Maven installation declared in the Jenkins "Global Tool Configuration"
           maven: 'apache-maven-3.0.5' ) {
-            sh 'mvn -B replacer:replace'
+            sh 'mvn -B deploy'
         }
       }
     }
-
-    stage('Package') {
-      steps {
-        echo "Packaging the application as RPM"
-        withMaven(
-          // Maven installation declared in the Jenkins "Global Tool Configuration"
-          maven: 'apache-maven-3.0.5' ) {
-            sh 'mvn -B rpm:rpm'
-        }
-      }
-    }
-
-    stage('Dockerize') {
-      steps {
-        echo "Packaging the application as Docker"
-        sh 'mvn -B docker:build'
-      }
-    }
-
-    stage('Publish') {
-      steps {
-        parallel(
-          "Publish Manifest": {
-            sh 'mvn -B deploy:deploy-file'
-          },
-          "Push Docker": {
-            sh 'mvn -B docker:push'
-          }
-        )
-      }
-    }
+    
   }
 }
